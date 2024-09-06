@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 // material-ui
@@ -35,6 +35,7 @@ import FirebaseSocial from './FirebaseSocial';
 export default function AuthLogin({ isDemo = false }) {
   const [checked, setChecked] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -43,19 +44,26 @@ export default function AuthLogin({ isDemo = false }) {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
   const handleSubmit = async (values, { setSubmitting, setErrors }) => {
     try {
-      const response = await axios.post('http://localhost:4000/login', values, { withCredentials: true });
+      // API URL
+      const apiUrl = `${import.meta.env.VITE_API_URL}auth/signin`;
 
+
+      const response = await axios.post(apiUrl, {
+        email: values.email,
+        password: values.password
+      });
+
+      // Check if response status is OK (200)
       if (response.status === 200) {
         toast.success('User logged in successfully!', {
-          position: toast.POSITION.TOP_RIGHT,
+          position: top - right,
         });
-        // Redirect to homepage or dashboard
-        // history.push('/dashboard');
+        navigate('/');
       }
     } catch (error) {
+      // Handle errors
       console.error('Error logging in user:', error.response?.data);
       setErrors({ submit: error.response?.data?.message || 'Something went wrong' });
       toast.error(error.response?.data?.message || 'Something went wrong', {

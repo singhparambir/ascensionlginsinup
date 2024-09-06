@@ -1,9 +1,11 @@
-// 
-import { Signup, Login } from "../Controllers/AuthController.mjs";
-import { Router } from 'express';
-const router = Router();
+// import { Router } from 'express';
+// import { signup, signin, signout } from "../Controllers/AuthController.mjs";
 
-router.post("/signup", Signup);
-router.post("/login", Login);
+// const router = Router();
 
-export default router;
+
+// router.post('/signup', signup);
+// router.post('/signin', signin);
+// router.post('/signout', signout);
+
+// export default router;
